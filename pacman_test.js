@@ -66,7 +66,7 @@ class Ball extends Shape {
 	
 	collisionDetect(balls) {
 		for(var j = 0; j < balls.length; j++) {
-			if(!(this === balls[j])) {
+			if(this !== balls[j] && balls[j].exists) {
 				var dx = this.x - balls[j].x;
 				var dy = this.y - balls[j].y;
 				var distance = Math.sqrt(dx * dx + dy * dy);
@@ -213,7 +213,7 @@ var enemy = new EnemyCircle(
 enemy.setControls();
 
 // define loop that keeps drawing the scene constantly
-function loop() {
+function loop(timestamp) {
 	var numberDead = 0;
 	ctx.fillStyle = 'rgba(0,0,0,0.25)';
 	ctx.fillRect(0,0,width,height);
@@ -235,6 +235,11 @@ function loop() {
 	enemy.update();
 	enemy.collisionDetect(balls);
 
+	// This method will aim for 60 fps depending on your monitor refresh rate, 
+	// and is always called before the next buffer drawn in the browser. 
+	// This is a special method optimized for animations. 
+	// The method will not run if the canvas is offscreen (I'll need to verify).
+	// Can be cancelled using cancelAnimationFrame()
 	requestAnimationFrame(loop);
 }
 
