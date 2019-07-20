@@ -115,13 +115,20 @@ class EnemyCircle extends Shape {
 	setControls() {
 		var _this = this;
 		window.onkeydown = function(e) {
-			if (e.keyCode === 65) {
+			// 65 = a, 37 = left arrow
+			if (e.keyCode === 65 || e.keyCode === 37) {
 				_this.x -= _this.velX;
-			} else if (e.keyCode === 68) {
+			} 
+			// 68 = d, 39 = right arrow
+			else if (e.keyCode === 68 || e.keyCode === 39) {
 				_this.x += _this.velX;
-			} else if (e.keyCode === 87) {
+			} 
+			// 87 = w, 38 = up arrow
+			else if (e.keyCode === 87 || e.keyCode === 38) {
 				_this.y -= _this.velY;
-			} else if (e.keyCode === 83) {
+			} 
+			// 83 = s, 40 = down arrow
+			else if (e.keyCode === 83 || e.keyCode === 40) {
 				_this.y += _this.velY;
 			}
 		}
