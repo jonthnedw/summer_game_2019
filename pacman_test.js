@@ -6,6 +6,9 @@ var ctx = canvas.getContext('2d');
 var width = canvas.width = window.innerWidth;
 var height = canvas.height = window.innerHeight;
 
+var pScores = document.getElementById('scores');
+pScores.innerHTML = 'test';
+
 // function to generate random number
 
 function random(min,max) {
@@ -78,7 +81,7 @@ class Ball extends Shape {
 
 class EnemyCircle extends Shape {
 	constructor(x, y) {
-		super(x, y, 20, 20, true);
+		super(x, y, 4, 4, true);
 		
 		this.color = 'white';
 		this.size = 10;
@@ -94,42 +97,66 @@ class EnemyCircle extends Shape {
 	};
 	
 	update() {
+		
+		// left
+		if (direction == 1) 
+			this.x -= this.velX;
+		
+		// up
+		if (direction == 2) 
+			this.y -= this.velY;
+		
+		// right
+		if (direction == 3) 
+			this.x += this.velX;
+		
+		// down
+		if (direction == 4) 
+			this.y += this.velY;
+		
+		// if we hit a wall, stop
+		
 		if((this.x + this.size) >= width) {
-			this.x = width - this.size;
+			this.x = width - this.size - 1;
+			direction = 0; // stop
 		}
 
 		if((this.x - this.size) <= 0) {
-			this.x = this.size;
+			this.x = this.size + 1;
+			direction = 0; // stop
 		}
 
 		if((this.y + this.size) >= height) {
-			this.y = height - this.size;
+			this.y = height - this.size - 1;
+			direction = 0; // stop
 		}
 
 		if((this.y - this.size) <= 0) {
-			this.y = this.size;
+			this.y = this.size + 1;
+			direction = 0; // stop
 		}
 
 	};
+	
 	
 	setControls() {
 		var _this = this;
 		window.onkeydown = function(e) {
 			// 65 = a, 37 = left arrow
 			if (e.keyCode === 65 || e.keyCode === 37) {
-				_this.x -= _this.velX;
-			} 
-			// 68 = d, 39 = right arrow
-			else if (e.keyCode === 68 || e.keyCode === 39) {
-				_this.x += _this.velX;
+				direction = 1;
 			} 
 			// 87 = w, 38 = up arrow
 			else if (e.keyCode === 87 || e.keyCode === 38) {
-				_this.y -= _this.velY;
+				direction = 2;
+			} 
+			// 68 = d, 39 = right arrow
+			else if (e.keyCode === 68 || e.keyCode === 39) {
+				direction = 3;
 			} 
 			// 83 = s, 40 = down arrow
 			else if (e.keyCode === 83 || e.keyCode === 40) {
-				_this.y += _this.velY;
+				direction = 4;
 			}
 		}
 	}
@@ -150,6 +177,13 @@ class EnemyCircle extends Shape {
 	
 }
 
+	// 0 = stop - this will happen if you run into a wall
+	// 1 = left
+	// 2 = up
+	// 3 = right
+	// 4 = down
+	var direction=0;
+	
 // define array to store balls and populate it
 
 var balls = [];
@@ -179,8 +213,8 @@ var enemy = new EnemyCircle(
 enemy.setControls();
 
 // define loop that keeps drawing the scene constantly
-
 function loop() {
+	var numberDead = 0;
 	ctx.fillStyle = 'rgba(0,0,0,0.25)';
 	ctx.fillRect(0,0,width,height);
 
@@ -188,10 +222,15 @@ function loop() {
 		if (balls[i].exists) {
 			balls[i].draw();
 			balls[i].update();
-			balls[i].collisionDetect(balls);	
+			balls[i].collisionDetect(balls);
+		}
+		else
+		{
+			numberDead += 1;
 		}
 	}
 	
+	pScores.innerHTML = "Score: " + numberDead;
 	enemy.draw();
 	enemy.update();
 	enemy.collisionDetect(balls);
