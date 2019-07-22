@@ -44,7 +44,7 @@ class PowerUp extends Item {
   draw() {
     ctx.beginPath()
     ctx.fillRect(this.x, this.y, this.size, this.size);
-  }
+  };
 
   update() {
     // white
@@ -53,7 +53,7 @@ class PowerUp extends Item {
     setTimeout(function() {ctx.fillStyle = "#FFC300";}, 2000);
     // orange
     setTimeout(function() {ctx.fillStyle = "#E39D3D";}, 2000);
-  }
+  };
 
   collisionDetect(enemy){
     var dx = this.x - enemy.x;
@@ -61,11 +61,11 @@ class PowerUp extends Item {
     var distance = Math.sqrt(dx * dx + dy *dy);
     if (distance < this.size + enemy.size){
       this.exists = false;
-      ememy.PowerUp(true);
+      enemy.PowerUp(true);
       // Power up will last 7 seconds.
       setTimeout(function() {enemy.PowerUp(false);}, 7000)
     }
-  }
+  };
 }
 
 class Ball extends Shape {
