@@ -1,11 +1,15 @@
 
-class TestClass
+class GetProcessor
 {
 
     private fs = require('fs');
 
     constructor() {}
 
+    public ProcessGet()
+    {
+        
+    }
 
     createFile() {
 

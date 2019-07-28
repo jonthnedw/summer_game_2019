@@ -8,6 +8,7 @@ class App {
     this.app = express();
     this.config();
     this.routes();
+
   }
 
   public app: express.Application;
@@ -28,8 +29,16 @@ class App {
 
     router.post('/', (req: Request, res: Response) => {
       const data = req.body;
-      // query a database and save data
-      res.status(200).send(data);
+
+      if (data["messagetype"] === "highscore")
+      {
+        res.status(200).send({ "message" : "I got your highscore"});
+      }
+      else
+      {
+        // query a database and save data
+        res.status(200).send(data);
+      }
     });
 
     this.app.use('/', router)
