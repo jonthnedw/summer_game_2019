@@ -1,5 +1,5 @@
 // setup canvas
-
+// TODO: (Jonathan) Fix asteroid physics. 
 var canvas = document.querySelector('canvas');
 var ctx = canvas.getContext('2d');
 
@@ -25,6 +25,7 @@ class GameTile
 var ship = new GameTile("ship.png", 25);
 var shipThrust1 = new GameTile("shipthrust1.png", 25);
 var shipThrust2 = new GameTile("shipthrust2.png", 25);
+var asteroidLarge = new GameTile("asteroid_large.png", 50);
 
 
 // function to generate random number
@@ -32,17 +33,6 @@ var shipThrust2 = new GameTile("shipthrust2.png", 25);
 function random(min,max) {
   var num = Math.floor(Math.random()*(max-min)) + min;
   return num;
-}
-
-class Shape {
-	constructor(x, y, velX, velY, exists) {
-		this.x = x;
-		this.y = y;
-		this.velX = velX;
-		this.velY = velY;
-		this.exists = exists;
-	}
-
 }
 
 class Item {
@@ -86,20 +76,28 @@ class PowerUp extends Item {
   };
 }
 
-class Ball extends Shape {
-	constructor(x, y, velX, velY, color, size, exists) {
+class Shape {
+	constructor(x, y, velX, velY, exists) {
+		this.x = x;
+		this.y = y;
+		this.velX = velX;
+		this.velY = velY;
+		this.exists = exists;
+	}
+
+}
+class Asteroid extends Shape {
+	constructor(x, y, velX, velY, size, exists) {
 		super(x, y, velX, velY, exists);
 
-		this.color = color;
 		this.size = size;
 	}
 
 
 	draw() {
 		ctx.beginPath();
-		ctx.fillStyle = this.color;
-		ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
-		ctx.fill();
+		ctx.drawImage(asteroidLarge.image, this.x - asteroidLarge.image.width / 2,
+			this.x - asteroidLarge.image.width / 2, this.size, this.size);
 	};
 
 	update() {
@@ -123,19 +121,19 @@ class Ball extends Shape {
 		this.y += this.velY;
 	};
 
-	collisionDetect(balls) {
-		for(var j = 0; j < balls.length; j++) {
-			if(this !== balls[j] && balls[j].exists) {
-				var dx = this.x - balls[j].x;
-				var dy = this.y - balls[j].y;
-				var distance = Math.sqrt(dx * dx + dy * dy);
-
-				if (distance < this.size + balls[j].size) {
-					balls[j].color = this.color = 'rgb(' + random(0,255) + ',' + random(0,255) + ',' + random(0,255) +')';
-				}
-			}
-		}
-	};
+	// collisionDetect(asteroids) {
+	// 	for(var j = 0; j < asteroids.length; j++) {
+	// 		if(this !== asteroids[j] && asteroids[j].exists) {
+	// 			var dx = this.x - asteroids[j].x;
+	// 			var dy = this.y - asteroids[j].y;
+	// 			var distance = Math.sqrt(dx * dx + dy * dy);
+	//
+	// 			if (distance < this.size + asteroids[j].size) {
+	// 				asteroids[j].color = this.color = 'rgb(' + random(0,255) + ',' + random(0,255) + ',' + random(0,255) +')';
+	// 			}
+	// 		}
+	// 	}
+	// };
 }
 
 class EnemyCircle extends Shape {
@@ -236,15 +234,15 @@ class EnemyCircle extends Shape {
 		}
 	}
 
-	collisionDetect(balls) {
-		for(var j = 0; j < balls.length; j++) {
-			if(balls[j].exists) {
-				var dx = this.x - balls[j].x;
-				var dy = this.y - balls[j].y;
+	collisionDetect(asteroids) {
+		for(var j = 0; j < asteroids.length; j++) {
+			if(asteroids[j].exists) {
+				var dx = this.x - asteroids[j].x;
+				var dy = this.y - asteroids[j].y;
 				var distance = Math.sqrt(dx * dx + dy * dy);
 
-				if (distance < this.size + balls[j].size) {
-					balls[j].exists = false;
+				if (distance < this.size + asteroids[j].size) {
+					this.exists = false;
 				}
 			}
 		}
@@ -259,29 +257,29 @@ class EnemyCircle extends Shape {
 	// 4 = down
 	var direction=0;
 
-// define array to store balls and populate it
+// define array to store asteroids and populate it
 
-var balls = [];
+var asteroids = [];
 
 // define array to store power-ups and populate it
 
 var power_ups = [];
 
-while(balls.length < 10) {
-	var size = random(10,20);
+while(asteroids.length < 5) {
+	sizes = [50, 100, 150, 200]
+	var size = sizes[random(0, 4)];
 
-	var ball = new Ball(
-		// ball position always drawn at least one ball width
+	var asteroid = new Asteroid(
+		// asteroid position always drawn at least one asteroid width
 		// away from the adge of the canvas, to avoid drawing errors
 		random(0 + size,width - size),
 		random(0 + size,height - size),
 		random(-7,7),
 		random(-7,7),
-		'rgb(' + random(0,255) + ',' + random(0,255) + ',' + random(0,255) +')',
 		size,
 		true
 	);
-	balls.push(ball);
+	asteroids.push(asteroid);
 }
 
 while(power_ups.length <= 5 ){
@@ -306,11 +304,10 @@ function loop(timestamp) {
 	ctx.fillStyle = 'rgba(0,0,0,0.25)';
 	ctx.fillRect(0,0,width,height);
 
-	for(var i = 0; i < balls.length; i++) {
-		if (balls[i].exists) {
-			balls[i].draw();
-			balls[i].update();
-			balls[i].collisionDetect(balls);
+	for(var i = 0; i < asteroids.length; i++) {
+		if (asteroids[i].exists) {
+			asteroids[i].draw();
+			asteroids[i].update();
 		}
 		else
 		{
@@ -329,7 +326,7 @@ function loop(timestamp) {
 	pScores.innerHTML = "Score: " + numberDead;
 	enemy.draw();
 	enemy.update();
-	enemy.collisionDetect(balls);
+	enemy.collisionDetect(asteroids);
 
 	// This method will aim for 60 fps depending on your monitor refresh rate,
 	// and is always called before the next buffer drawn in the browser.
