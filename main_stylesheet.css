@@ -1,0 +1,48 @@
+.background {
+	background-color: #DAE8E8;
+}
+
+@font-face {
+    font-family: 'space_ranger_bold_italicBdIt';
+    src: url('resource/spacerangerboldital-webfont.woff2') format('woff2'),
+         url('resource/spacerangerboldital-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+body {
+	padding: 0;
+	/* Get rid of the small default margin */
+	margin: 0;
+}
+
+
+p {
+	color: black;
+}
+
+.divheader {
+	background-color: #84AAB2;
+	width: 768px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+	border-radius: 30px;
+	padding-top: 70px;
+	padding-bottom: 200px;
+	position: relative;
+}
+
+
+.linkcontainer {
+	display: flex;
+	column-gap: 20px;
+	justify-content: center;
+	margin-top: 60px;
+}
+
+.divaboutus {
+	font-family: "space_ranger_bold_italicBdIt";
+	text-align: center;
+}
