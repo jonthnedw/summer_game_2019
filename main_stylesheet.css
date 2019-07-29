@@ -1,7 +1,7 @@
-.background {
-	background-color: #DAE8E8;
-}
 
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One&display=swap');
+
+/* This doesn't work in Firefox. Need to investigate: https://stackoverflow.com/questions/2856502/css-font-face-not-working-with-firefox-but-working-with-chrome-and-ie */
 @font-face {
     font-family: 'space_ranger_bold_italicBdIt';
     src: url('resource/spacerangerboldital-webfont.woff2') format('woff2'),
@@ -10,6 +10,15 @@
     font-style: normal;
 
 }
+
+
+
+.background {
+	background-color: #DAE8E8;
+}
+
+
+
 
 body {
 	padding: 0;
@@ -30,19 +39,31 @@ p {
 	margin-top: 20px;
 	border-radius: 30px;
 	padding-top: 70px;
-	padding-bottom: 200px;
+	padding-bottom: 150px;
 	position: relative;
 }
 
 
 .linkcontainer {
 	display: flex;
-	column-gap: 20px;
 	justify-content: center;
 	margin-top: 60px;
 }
 
-.divaboutus {
-	font-family: "space_ranger_bold_italicBdIt";
+.linkcontainer a {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.divaboutus h1 {
+	font-family: 'Fjalla One', sans-serif;
 	text-align: center;
+	color: #364B4C
+}
+
+.divaboutus p {
+    margin-left: auto;
+    margin-right: auto;
+	color: #364B4C;
+	width: 700px;
 }
