@@ -39,7 +39,7 @@ p {
 	margin-top: 20px;
 	border-radius: 30px;
 	padding-top: 70px;
-	padding-bottom: 150px;
+	padding-bottom: 130px;
 	position: relative;
 }
 
@@ -55,10 +55,14 @@ p {
 	margin-right: 10px;
 }
 
-.divaboutus h1 {
+h1 {
 	font-family: 'Fjalla One', sans-serif;
 	text-align: center;
 	color: #364B4C
+}
+
+.divaboutus {
+	margin-top: 20px;
 }
 
 .divaboutus p {
