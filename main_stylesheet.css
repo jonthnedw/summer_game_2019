@@ -21,6 +21,7 @@
 
 
 body {
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 	padding: 0;
 	/* Get rid of the small default margin */
 	margin: 0;
@@ -62,7 +63,8 @@ h1 {
 }
 
 .divaboutus {
-	margin-top: 20px;
+	margin-top: 30px;
+	margin-bottom: 100px;
 }
 
 .divaboutus p {
