@@ -20,13 +20,20 @@ class GameTile
     }
 };
 
-var ship = new GameTile("ship.png");
-var asteroid = new GameTile("asteroid.png");
+var ship_tile = new GameTile("ship.png");
+var asteroid_tile = new GameTile("asteroid.png");
 
 function random(min: number, max:number): number {
     let num = Math.floor(Math.random()*(max-min)) + min;
     return num;
 };
+
+function notZero(n: number, min: number, max:number): number{
+    if (n == 0){
+        return notZero(random(min, max), min, max);
+    }
+    return n
+}
 
 class VectorObject {
     x: number; // Object's x position
@@ -46,15 +53,18 @@ class VectorObject {
 
 class Asteroid extends VectorObject {
     size: number; // Size of asteroid (length/witdth)
-    constructor(x: number, y: number, velX:number, velY:number, exists:boolean, size: number){
+    constructor({ x, y, velX, velY, exists, size }: { x: number; y: number; velX: number; velY: number; exists: boolean; size: number; }){
         super(x, y, velX, velY, exists);
         this.size = size;
     }
 
     draw() {
         ctx.beginPath();
-        ctx.drawImage(asteroid.image, this.x - asteroid.image.width / 2,
-            this.y - asteroid.image.height / 2, this.size, this.size);
+        ctx.drawImage(asteroid_tile.image, this.x - this.size / 2,
+            this.y - this.size / 2, this.size, this.size);
+        // For debugging
+        //ctx.fillStyle = "green";
+        //ctx.fillRect(this.x, this.y, 3, 3)
     };
 
     update(){
@@ -82,14 +92,17 @@ class Asteroid extends VectorObject {
 class Ship extends VectorObject {
     size: number; // Size of the ship, 30x30 pxls by default
     direction: number;
-    constructor(x: number,y: number){
-        super(x, y, 4, 4, true);
+    constructor({ x, y, exists }: { x: number; y: number; exists: boolean; }){
+        super(x, y, 4, 4, exists);
         this.size = 30;
     };
 
     draw(){
         ctx.beginPath();
-        ctx.drawImage(ship.image, this.x - ship.image.width / 2, this.y - ship.image.height, this.size, this.size);
+        ctx.drawImage(ship_tile.image, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+        // For debugging
+        //ctx.fillStyle = "green";
+        //ctx.fillRect(this.x, this.y, 3, 3)
     };
 
     update() {
@@ -108,23 +121,23 @@ class Ship extends VectorObject {
 
         // if we hit a wall, stop
 
-        if((this.x + this.size) >= width) {
-            this.x = width - this.size - 1;
+        if((this.x + this.size / 2) >= width) {
+            this.x = width - this.size / 2 - 1;
             this.direction = 0; // stop
         }
 
-        if((this.x - this.size) <= 0) {
-            this.x = this.size + 1;
+        if((this.x - this.size / 2) <= 0) {
+            this.x = this.size / 2 + 1;
             this.direction = 0; // stop
         }
 
-       if((this.y + this.size) >= height) {
-            this.y = height - this.size - 1;
+       if((this.y + this.size / 2) >= height) {
+            this.y = height - this.size / 2 - 1;
             this.direction = 0; // stop
         }
 
-       if((this.y - this.size) <= 0) {
-            this.y = this.size + 1;
+       if((this.y - this.size / 2) <= 0) {
+            this.y = this.size / 2 + 1;
             this.direction = 0; // stop
         }
     };
@@ -157,7 +170,7 @@ class Ship extends VectorObject {
 				let dy = this.y - asteroids[j].y;
 				let distance = Math.sqrt(dx * dx + dy * dy);
 
-				if (distance < this.size + asteroids[j].size) {
+				if (distance < this.size / 2 + asteroids[j].size / 2) {
 					this.exists = false;
 				}
 			}
@@ -167,29 +180,21 @@ class Ship extends VectorObject {
 
 let asteroids = [];
 
-while(asteroids.length < 5){
+while(asteroids.length < 10){
     let sizes = [50, 100, 150]
     let size = sizes[random(0,3)];
 
     let ast = new Asteroid(
-		random(0 + size,width - size),
-		random(0 + size,height - size),
-		random(-7,7),
-		random(-7,7),
-        true,
-        size
-    );
+        { x: random(0 + size, width - size), y: random(0 + size, height - size), velX: notZero(random(-3, 3), -3, 3), velY: notZero(random(-3, 3), -3, 3), exists: true, size }    );
     asteroids.push(ast);
 }
 
 let player = new Ship(
-    random(0 + 30,width - 30),
-    random(0 + 30,height - 30)
-    );
+    { x: random(0 + 30, width - 30), y: random(0 + 30, height - 30), exists: true } );
 player.setControls();
 
 function gameLoop(timestamp: any): void{
-    ctx.fillStyle = 'rgba(0,0,0,0.25)';
+    ctx.fillStyle = 'rgba(54,53,87,0.5)';
     ctx.fillRect(0,0,width,height);   
     
     for(let i = 0; i < asteroids.length; i++){
@@ -198,10 +203,11 @@ function gameLoop(timestamp: any): void{
             asteroids[i].update();
         }
     };
-
-    player.draw();
-    player.update();
-    player.collisionDetect(asteroids);
+    if (player.exists){    
+        player.draw();
+        player.update();
+        player.collisionDetect(asteroids);
+    }
     requestAnimationFrame(gameLoop);
 };
 
