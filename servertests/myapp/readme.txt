@@ -24,3 +24,5 @@ Helpful links:
 Crash course on running typescript using node.js, allowing typescript for server-side scripting:
 https://blog.sourcerer.io/a-crash-course-on-typescript-with-node-js-2c376285afe1
 
+Compiling Typescript in visual studio code
+https://code.visualstudio.com/docs/typescript/typescript-compiling

@@ -11,25 +11,7 @@ var pScores = document.getElementById('scores');
 pScores.innerHTML = 'test';
 
 
-class SpriteMap
-{
-	constructor() {
-		this.image = new Image();
-        this.image.src = "spritemap-384.png";
-        this.tilePxSize = 24;
-	}
 
-    drawGameTile(code, context, cenX, cenY, tileX, tileY)
-    {
-        var tileW = this.tilePxSize;
-        var tileH = this.tilePxSize;
-
-        context.drawImage(this.image, 
-            tileX * this.tilePxSize, tileY * this.tilePxSize, tileW, tileH,
-             cenX - tileW / 2, cenY - tileH / 2, tileW, tileH);
-    }
-
-}
 
 var spriteMap = new SpriteMap();
 
