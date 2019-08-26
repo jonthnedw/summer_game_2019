@@ -1,5 +1,6 @@
 // setup canvas
 
+
 var canvas = document.querySelector('canvas');
 var ctx = canvas.getContext('2d');
 
@@ -8,6 +9,29 @@ var height = canvas.height = 700;
 
 var pScores = document.getElementById('scores');
 pScores.innerHTML = 'test';
+
+
+class SpriteMap
+{
+	constructor() {
+		this.image = new Image();
+        this.image.src = "spritemap-384.png";
+        this.tilePxSize = 24;
+	}
+
+    drawGameTile(code, context, cenX, cenY, tileX, tileY)
+    {
+        var tileW = this.tilePxSize;
+        var tileH = this.tilePxSize;
+
+        context.drawImage(this.image, 
+            tileX * this.tilePxSize, tileY * this.tilePxSize, tileW, tileH,
+             cenX - tileW / 2, cenY - tileH / 2, tileW, tileH);
+    }
+
+}
+
+var spriteMap = new SpriteMap();
 
 // function to generate random number
 
@@ -130,11 +154,13 @@ class EnemyCircle extends Shape {
 
 
 	draw() {
-		ctx.beginPath();
-		ctx.lineWidth = 3;
-		ctx.strokeStyle = this.color;
-		ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
-		ctx.stroke();
+		// ctx.beginPath();
+		// ctx.lineWidth = 3;
+		// ctx.strokeStyle = this.color;
+		// ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+		// ctx.stroke();
+
+		spriteMap.drawGameTile('0', ctx, this.x, this.y, 0, 0);
 	};
 
   PowerUp(powerup) {
@@ -283,7 +309,7 @@ enemy.setControls();
 // define loop that keeps drawing the scene constantly
 function loop(timestamp) {
 	var numberDead = 0;
-	ctx.fillStyle = 'rgba(0,0,0,0.25)';
+	ctx.fillStyle = 'rgba(0,0,0,1)';
 	ctx.fillRect(0,0,width,height);
 
 	for(var i = 0; i < balls.length; i++) {
@@ -305,15 +331,6 @@ function loop(timestamp) {
     }
   }
 
-  // continually make power ups change color
-  // BUG: Not sure if this function actually works the way I thought it would
-  setInterval(function() {
-    for(var i = 0; i < power_ups.length; i++){
-      if (power_ups[i].exists){
-        power_ups[i].update();
-      }
-    }
-  }, 6000);
 
 	pScores.innerHTML = "Score: " + numberDead;
 	enemy.draw();
