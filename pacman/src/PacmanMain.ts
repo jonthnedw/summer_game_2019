@@ -1,4 +1,4 @@
-import * as SpriteOperations from "./SpriteOperations";
+import { DrawGameBoard } from "./SpriteOperations";
 
 
 alert("starting loop...");
@@ -16,7 +16,7 @@ var height:number = canvas.height = 700;
 function loop(timestamp:number):void 
 {
 
-    SpriteOperations.DrawGameBoard(ctx);
+    DrawGameBoard(ctx);
 
 	// This method will aim for 60 fps depending on your monitor refresh rate,
 	// and is always called before the next buffer drawn in the browser.

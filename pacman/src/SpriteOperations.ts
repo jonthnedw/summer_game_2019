@@ -1,4 +1,4 @@
-import * as fs from 'fs'; // This gets transpiled into: var fs = require('fs');
+import { readFile } from 'fs';
 
 
 
@@ -129,7 +129,7 @@ function DownloadAllAssets() : void {
 
     m_gameBoardLoaded = false;
 
-    fs.readFile("../GameBoard1.txt", (err, data:Buffer) => {
+    readFile("../GameBoard1.txt", (err, data:Buffer) => {
         if (err) {
             console.log("Error reading file");
         }

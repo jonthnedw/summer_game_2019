@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = require("fs"); // This gets transpiled into: var fs = require('fs');
+var fs_1 = require("fs");
 /* Game board will use a 28x31 tile set, rendered from the sprite map (spritemap-384.png).
 The canvas size will exactly match the size of the laid out tile set.
 Each tile will be 24x24 pixels.
@@ -18,14 +18,15 @@ This means the game board’s pixel dimensions are: 672x744. */
 //         });
 //     });
 // }
-class Tile {
-    constructor(srcX, srcY, drawX, drawY) {
+var Tile = /** @class */ (function () {
+    function Tile(srcX, srcY, drawX, drawY) {
         this.srcTileX = srcX;
         this.srcTtileY = srcY;
         this.drawTileX = drawX;
         this.drawTileY = drawY;
     }
-}
+    return Tile;
+}());
 var m_gameBoardLoaded = false;
 var m_gameBoardTiles = null;
 var m_gameBoardWidth = -1;
@@ -98,7 +99,7 @@ function ProcessGameboardText(gameBoardStr) {
 // Eventually, this will return a promise so that all assets are downloaded asynchronously
 function DownloadAllAssets() {
     m_gameBoardLoaded = false;
-    fs.readFile("../GameBoard1.txt", (err, data) => {
+    fs_1.readFile("../GameBoard1.txt", function (err, data) {
         if (err) {
             console.log("Error reading file");
         }
@@ -117,18 +118,19 @@ function DownloadAllAssets() {
     // });
 }
 exports.DownloadAllAssets = DownloadAllAssets;
-class SpriteMap {
-    constructor() {
+var SpriteMap = /** @class */ (function () {
+    function SpriteMap() {
         this.image = new HTMLImageElement();
         this.image.src = "spritemap-384.png";
         this.tilePxSize = 24;
     }
-    drawGameTile(code, context, cenX, cenY, tileX, tileY) {
+    SpriteMap.prototype.drawGameTile = function (code, context, cenX, cenY, tileX, tileY) {
         var tileW = this.tilePxSize;
         var tileH = this.tilePxSize;
         context.drawImage(this.image, tileX * this.tilePxSize, tileY * this.tilePxSize, tileW, tileH, cenX - tileW / 2, cenY - tileH / 2, tileW, tileH);
-    }
-}
+    };
+    return SpriteMap;
+}());
 function DrawGameBoard(context) {
     if (!m_gameBoardLoaded) {
         return false;
