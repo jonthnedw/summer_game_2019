@@ -1,0 +1,11 @@
+{
+  "name": "pacman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/PacmanMain.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
+}

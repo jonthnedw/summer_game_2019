@@ -1,5 +1,5 @@
-import { DrawGameBoard } from "./SpriteOperations";
-
+// import { DrawGameBoard } from "./SpriteOperations";
+var SpriteOperations = require('./SpriteOperations'); // commonJs syntax
 
 alert("starting loop...");
 
@@ -16,7 +16,7 @@ var height:number = canvas.height = 700;
 function loop(timestamp:number):void 
 {
 
-    DrawGameBoard(ctx);
+    SpriteOperations.DrawGameBoard(ctx);
 
 	// This method will aim for 60 fps depending on your monitor refresh rate,
 	// and is always called before the next buffer drawn in the browser.

@@ -1,0 +1,25 @@
+{
+  "name": "summer_game_2019",
+  "version": "1.0.0",
+  "description": "Runs the game web server",
+  "main": "idontknowwhattodowiththisyet.js",
+  "scripts": {
+    "dev": "ts-node ./gameserver/src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonthnedw/summer_game_2019.git"
+  },
+  "author": "Jonathan Edwards and David Ko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonthnedw/summer_game_2019/issues"
+  },
+  "homepage": "https://github.com/jonthnedw/summer_game_2019#readme",
+  "devDependencies": {
+    "@types/node": "^12.7.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

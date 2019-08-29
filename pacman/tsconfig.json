@@ -1,15 +1,12 @@
 {
     "compilerOptions": {
-        "target": "es5", /* Downcompiling to es5 to following Adashi's model. We'll see if this is a mistake */
+        "target": "es6", /* We'll just stick to es6 (es2015) as a target */
         "lib": [ "dom", "es2015" ],
         "sourceMap": true,
-        "outDir": "./dist",
+        "outDir": "./built",
         "module": "commonjs"
     },
     "include": [
         "src/**/*.ts"
-    ],
-    "developer_notes": {
-        "module": "commonjs removed from compilerOptions because it caused an 'exports not defined error'. Still not sure why."
-    }
+    ]
 }
