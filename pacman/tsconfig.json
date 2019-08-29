@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "lib": [ "dom", "es2015" ],
+        "sourceMap": true,
+        "outDir": "./dist",
+    },
+    "include": [
+        "src/**/*.ts"
+    ],
+    "exclude": [
+      "node_modules"
+    ],
+    "developer_notes": {
+        "module": "commonjs removed from compilerOptions because it caused an 'exports not defined error'. Still not sure why."
+    }
+}

@@ -8,28 +8,48 @@ html {
 }
 
 body {
-  overflow: hidden;
-  height: inherit;
+  background: #84AAB2;
 }
 
-h1 {
-  font-size: 2rem;
-  letter-spacing: -1px;
-  position: absolute;
-  margin: 0;
-  top: -4px;
-  right: 5px;
 
-  color: transparent;
-  text-shadow: 0 0 4px white;
+
+a:link {
+
+  text-decoration: none;
+  color: white;
 }
 
-p {
+.divheaderbar {
+  display: grid;
+  background: #364B4C;
+  width: 100%;
+  padding: 20px 40px;
+}
 
-	position: absolute;
-	margin: 0;
-	top: 35px;
-	right: 5px;
-	color: #aaa;
+.divgamecontainer {
+  height:inherit;
+  display: flex;
+  width: 768px;
+  /* Orders items top-bottom */
+  flex-direction: column;
+  background: #678787;
 
+  /* Allows the div to size itself according to the children and center itself. */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.title {
+  /* Forces title card to center itself */
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  height: 40px;
+}
+
+canvas {
+  /* Canvas width/height set in code */
+  margin-top: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
