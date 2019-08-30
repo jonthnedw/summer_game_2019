@@ -3,7 +3,7 @@
         "target": "es6", /* We'll just stick to es6 (es2015) as a target */
         "lib": [ "dom", "es2015" ],
         "sourceMap": true,
-        "outDir": "./built",
+        "outDir": "./dist",
         "module": "commonjs"
     },
     "include": [

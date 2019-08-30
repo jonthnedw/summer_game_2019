@@ -4,7 +4,8 @@
   "description": "Runs the game web server",
   "main": "idontknowwhattodowiththisyet.js",
   "scripts": {
-    "dev": "ts-node ./gameserver/src/server.ts"
+    "dev": "node ./public/server/dist/server.js",
+    "deploy": "node ./deploy.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
     "@types/node": "^12.7.2"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "ncp": "^2.0.0"
   }
 }
