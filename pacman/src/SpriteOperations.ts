@@ -1,5 +1,10 @@
 //var fs = require('fs'); /* commonJs syntax */
-import * as fs from 'fs';
+// import * as fs from 'fs'; // Don't need fs right now...
+
+// Import assets that need to be packaged up using WebPack
+import GameBoardText from './GameBoard1.txt';
+import MazeParts from './spritemap-384.png';
+
 
 /* Game board will use a 28x31 tile set, rendered from the sprite map (spritemap-384.png). 
 The canvas size will exactly match the size of the laid out tile set. 
@@ -23,15 +28,17 @@ This means the game board’s pixel dimensions are: 672x744. */
 //     });
 // }
 
+
+
 class Tile {
     srcTileX:number;
-    srcTtileY:number;
+    srcTileY:number;
     drawTileX:number;
     drawTileY:number;
 
     constructor(srcX:number, srcY:number, drawX:number, drawY:number) {
         this.srcTileX = srcX;
-        this.srcTtileY = srcY;
+        this.srcTileY = srcY;
         this.drawTileX = drawX;
         this.drawTileY = drawY;
     }
@@ -46,6 +53,9 @@ function ProcessGameboardText(gameBoardStr:string) : boolean
 {
     var charCount:number = 0;
  
+    console.log("Printing gameboard text...");
+    console.log(gameBoardStr);
+
     var gameBoardRows = gameBoardStr.split('\n');
     
     // The first row will determine the map width
@@ -124,20 +134,20 @@ function ProcessGameboardText(gameBoardStr:string) : boolean
 }
 
 // Eventually, this will return a promise so that all assets are downloaded asynchronously
-function DownloadAllAssets() : void {
+// function DownloadAllAssets() : void {
 
-    m_gameBoardLoaded = false;
+//     m_gameBoardLoaded = false;
 
-    fs.readFile("../GameBoard1.txt", (err, data:Buffer) => {
-        if (err) {
-            console.log("Error reading file");
-        }
-        else {
-            console.log("Downloaded GameBoard1.txt");
-            var gameBoardStr:string = data.toString();
-            ProcessGameboardText(gameBoardStr);
-        }
-    });
+//     fs.readFile("../GameBoard1.txt", (err, data:Buffer) => {
+//         if (err) {
+//             console.log("Error reading file");
+//         }
+//         else {
+//             console.log("Downloaded GameBoard1.txt");
+//             var gameBoardStr:string = data.toString();
+//             ProcessGameboardText(gameBoardStr);
+//         }
+//     });
 
     // ReadFileAsync("../GameBoard1.txt").then((result:Buffer) => {
     //     console.log("Downloaded GameBoard1.txt");
@@ -150,7 +160,7 @@ function DownloadAllAssets() : void {
     // });
 
 
-}
+// }
 
 
 
@@ -161,7 +171,7 @@ class SpriteMap
 
 	constructor() {
 		this.image = new HTMLImageElement();
-        this.image.src = "spritemap-384.png";
+        this.image.src = MazeParts;
         this.tilePxSize = 24;
 	}
 
@@ -190,5 +200,20 @@ function DrawGameBoard(context:CanvasRenderingContext2D) : boolean
     return true;
 }
 
+function Initialize() : boolean
+{
+    if (ProcessGameboardText(GameBoardText))
+    {
+        m_gameBoardLoaded = true;
+    }
+    else
+    {
+        return false;
+    }
 
-export { DownloadAllAssets, DrawGameBoard };
+
+    return true;
+}
+
+
+export { Initialize, DrawGameBoard };

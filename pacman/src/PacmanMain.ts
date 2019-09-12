@@ -1,15 +1,17 @@
-// import { DrawGameBoard } from "./SpriteOperations";
-// var SpriteOperations = require('./SpriteOperations'); // commonJs syntax
+
 import * as SpriteOperations from './SpriteOperations';
 
-alert("starting loop...");
+// Import any assets that need to be packaged up using WebPack
+import './pacman_style.css';
+
+
+console.log("Starting game logic...");
 
 var canvas:HTMLCanvasElement = document.querySelector('canvas');
 var ctx:CanvasRenderingContext2D = canvas.getContext('2d');
 
 var width:number = canvas.width = 700;
 var height:number = canvas.height = 700;
-
 
 
 
@@ -29,4 +31,20 @@ function loop(timestamp:number):void
 
 
 
-loop(0);
+console.log("Initializing SpriteOperations...");
+
+if (SpriteOperations.Initialize())
+{
+	console.log("Sprites initialized! Starting game loop...");
+
+	// Sprites initialized. Start game loop.
+	loop(0);
+}
+else
+{
+	console.log("Sprites failed to load!");
+	// Show error display
+
+}
+
+
