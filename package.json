@@ -6,7 +6,6 @@
   "main": "idontknowwhattodowiththisyet.js",
   "scripts": {
     "dev": "node ./public/server/dist/server.js",
-    "deploy": "node ./deploy.js",
     "build": "webpack"
   },
   "repository": {
