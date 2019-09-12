@@ -1,5 +1,5 @@
-var fs = require('fs'); /* commonJs syntax */
-
+//var fs = require('fs'); /* commonJs syntax */
+import * as fs from 'fs';
 
 /* Game board will use a 28x31 tile set, rendered from the sprite map (spritemap-384.png). 
 The canvas size will exactly match the size of the laid out tile set. 

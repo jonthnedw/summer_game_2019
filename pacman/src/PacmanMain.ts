@@ -1,5 +1,6 @@
 // import { DrawGameBoard } from "./SpriteOperations";
-var SpriteOperations = require('./SpriteOperations'); // commonJs syntax
+// var SpriteOperations = require('./SpriteOperations'); // commonJs syntax
+import * as SpriteOperations from './SpriteOperations';
 
 alert("starting loop...");
 
