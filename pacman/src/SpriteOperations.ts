@@ -3,8 +3,8 @@
 
 // Import assets that need to be packaged up using WebPack
 import GameBoardText from './GameBoard1.txt';
-import MazeParts from './spritemap-384.png';
-
+// Import doesn't seem to work in typescript for WebPack packaging. Not sure why....
+const MazeParts = require('./spritemap-384.png');
 
 /* Game board will use a 28x31 tile set, rendered from the sprite map (spritemap-384.png). 
 The canvas size will exactly match the size of the laid out tile set. 
@@ -31,8 +31,13 @@ This means the game board’s pixel dimensions are: 672x744. */
 
 
 class Tile {
+
+    // The position in the gameboard
     srcTileX:number;
     srcTileY:number;
+
+    // The position in the spritemap for this tile.
+    // Draw tiles are based on spritemap-384.png
     drawTileX:number;
     drawTileY:number;
 
@@ -44,7 +49,6 @@ class Tile {
     }
 }
 
-var m_gameBoardLoaded:boolean = false;
 var m_gameBoardTiles:Tile[] = null;
 var m_gameBoardWidth:number = -1;
 var m_gameBoardHeight:number = -1;
@@ -68,8 +72,8 @@ function ProcessGameboardText(gameBoardStr:string) : boolean
     {
         if (gameBoardRows[i].length !== m_gameBoardWidth)
         {
-            console.log("ERROR: Line " + i + " does not have the correct number of tiles! Map is malformed!");
-            return false;
+            console.log("WARNING: Line " + i + " (" + gameBoardRows[i].length + ")" + " does not have the correct number of tiles!" + m_gameBoardWidth + " Map is malformed!");
+            //return false;
         }
     }
 
@@ -82,30 +86,33 @@ function ProcessGameboardText(gameBoardStr:string) : boolean
 
         for(var j=0;j<row.length;j++)
         {
+            if (Number(row[j]) == 0)
+                continue;
+
             switch(row[j])
             {
                 case '┏':{
-                    m_gameBoardTiles.push(new Tile(i,j,0,0));
+                    m_gameBoardTiles.push(new Tile(j,i,19,3));
                     break;
                 }
                 case '━':{
-                    m_gameBoardTiles.push(new Tile(i,j,0,0));
+                    m_gameBoardTiles.push(new Tile(j,i,20,3));
                     break;
                 }
                 case '┓':{
-                    m_gameBoardTiles.push(new Tile(i,j,0,0));
+                    m_gameBoardTiles.push(new Tile(j,i,18,3));
                     break;
                 }
                 case '┃':{
-                    m_gameBoardTiles.push(new Tile(i,j,0,0));
+                    m_gameBoardTiles.push(new Tile(j,i,24,3));
                     break;
                 }
                 case '┗':{
-                    m_gameBoardTiles.push(new Tile(i,j,0,0));
+                    m_gameBoardTiles.push(new Tile(j,i,17,3));
                     break;
                 }
                 case '┛':{
-                    m_gameBoardTiles.push(new Tile(i,j,0,0));
+                    m_gameBoardTiles.push(new Tile(j,i,16,3));
                     break;
                 }
                 case '.':{
@@ -117,9 +124,12 @@ function ProcessGameboardText(gameBoardStr:string) : boolean
                 case ' ':{
                     break;
                 }
+                case '': {
+                    break;
+                }
                 default: {
                     // this is an error
-                    console.log("ERROR: Unhandle char: '" + row[j] + "' at i,j=" + i + "," + j);
+                    console.log("ERROR: Unhandle char: '" + row[j] + "' ascii " + Number(row[j]) + " at i,j=" + i + "," + j);
                     return false;
                 }
             }
@@ -127,8 +137,7 @@ function ProcessGameboardText(gameBoardStr:string) : boolean
        
     }
 
-    console.log("Processed Gameboard. Width=" + m_gameBoardWidth + ", Height=" + m_gameBoardHeight);
-    m_gameBoardLoaded = true;
+    console.log("Processed Gameboard. Width=" + m_gameBoardWidth + ", Height=" + m_gameBoardHeight + ", TileCount=" + m_gameBoardTiles.length);
 
     return true;
 }
@@ -170,43 +179,46 @@ class SpriteMap
     tilePxSize:number;
 
 	constructor() {
-		this.image = new HTMLImageElement();
+		this.image = new Image();
         this.image.src = MazeParts;
-        this.tilePxSize = 24;
+        this.tilePxSize = 12;
 	}
 
-    drawGameTile(code:string, context:CanvasRenderingContext2D, cenX:number, cenY:number, tileX:number, tileY:number):void
+    drawGameTile(context:CanvasRenderingContext2D, drawToX:number, drawToY:number, tileX:number, tileY:number):void
     {
         var tileW:number = this.tilePxSize;
         var tileH:number = this.tilePxSize;
 
         context.drawImage(this.image, 
             tileX * this.tilePxSize, tileY * this.tilePxSize, tileW, tileH,
-             cenX - tileW / 2, cenY - tileH / 2, tileW, tileH);
+            drawToX, drawToY, tileW, tileH);
     }
 
 }
 
+console.log("Creating SpriteMap");
 
-function DrawGameBoard(context:CanvasRenderingContext2D) : boolean
+var m_spriteMap:SpriteMap = new SpriteMap();
+
+function DrawGameBoard(context:CanvasRenderingContext2D) : void
 {
-    if (!m_gameBoardLoaded) {
-        return false;
+    var boardX:number;
+    var boardY:number;
+
+    for (var i=0;i<m_gameBoardTiles.length;i++)
+    {
+        boardX = m_gameBoardTiles[i].srcTileX * m_spriteMap.tilePxSize;
+        boardY = m_gameBoardTiles[i].srcTileY * m_spriteMap.tilePxSize;
+
+        m_spriteMap.drawGameTile(context, boardX, boardY, m_gameBoardTiles[i].drawTileX, m_gameBoardTiles[i].drawTileY);
     }
-
-
     
 
-    return true;
 }
 
 function Initialize() : boolean
 {
-    if (ProcessGameboardText(GameBoardText))
-    {
-        m_gameBoardLoaded = true;
-    }
-    else
+    if (!ProcessGameboardText(GameBoardText))
     {
         return false;
     }
