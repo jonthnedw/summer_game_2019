@@ -1,12 +1,12 @@
 const path = require('path');
 
-// npm install --save-dev html-webpack-plugin?
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
-// npm install --save-dev clean-webpack-plugin?
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-
-
-// TODO: Only have outputs for pacman. Need to add for other projects.
+// This configuration file is used by WebPack to compile ts code and package up all assets into a dist folder.
+// See: https://webpack.js.org/guides/getting-started/
+// 
+// Other games should follow this pattern:
+// 1. Create your own [game].webpack.config.js
+// 2. Add a build script in package.json (see pacman example)
+//
 
 module.exports = {
   entry: './pacman/src/PacmanMain.ts',

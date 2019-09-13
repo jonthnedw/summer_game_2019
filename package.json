@@ -6,7 +6,7 @@
   "main": "idontknowwhattodowiththisyet.js",
   "scripts": {
     "dev": "node ./public/server/dist/server.js",
-    "build": "webpack"
+    "pacman": "webpack --config pacman.webpack.config.js"
   },
   "repository": {
     "type": "git",
