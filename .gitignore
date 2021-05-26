@@ -1,2 +1,6 @@
 node_modules
 pacman/dist/main.bundle.js
+asteroid/.vs
+asteroid/.vscode
+.DS_Store
+.vscode
