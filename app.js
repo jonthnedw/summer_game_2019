@@ -1,4 +1,4 @@
-// Main router
+// Main Express router
 
 var createError = require('http-errors');
 var express = require('express');
