@@ -1,0 +1,15 @@
+body {
+	font-family: 'Fjalla One', sans-serif;
+	padding: 0;
+	margin: 0;
+    background-color: #DAE8E8;
+    text-align: center;
+}
+
+#error-msg {
+    margin: 40vh 0;
+}
+
+#error-msg #red {
+    color: #881010;
+}

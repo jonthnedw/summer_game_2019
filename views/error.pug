@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title Error!
+
+    link(rel="preconnect", href="https://fonts.gstatic.com")
+    link(href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap", rel="stylesheet")
+    link(rel="shortcut icon", type="image/jpg", href="resource/images/8.jpg")
+
+    style 
+        include error.css
+  body
+    div(id="error-msg")
+      h1 Oh no, we made a blunder!
+      p Here's the error: 
+      div(id="red")
+        p #{error}
